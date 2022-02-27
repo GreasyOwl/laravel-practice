@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Http\Requests\UpdateCartItem;
+use Illuminate\Support\Facades\Validator;
 
-class ProductController extends Controller
+class CartItemController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $datas = DB::table('products')->get();
-        return $datas;
+        //
     }
 
     /**
@@ -36,7 +36,17 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(), [
+            'cart_id' => 'required|integer',
+            'product_id' => 'required|integer',
+            'quantity' => 'required|integer|between:1,10',
+        ], [
+            'required' => ':attribute 為必填',
+        ]);
+
+        if ($validator->fails()) {
+            return response($validator->errors(), 400);
+        }
     }
 
     /**
@@ -68,9 +78,11 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateCartItem $request, $id)
     {
-        //
+        $validated = $request->validated();
+
+        return response()->json($validated);
     }
 
     /**

@@ -2,8 +2,10 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\XMLController;
+use App\Http\Controllers\CartController;
 use App\Http\Controllers\UploadController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartItemController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +23,17 @@ use App\Http\Controllers\ProductController;
 // });
 
 
-Route::resource('/product', ProductController::class);
+Route::resource('/products', ProductController::class);
+Route::resource('/carts', CartController::class);
+Route::resource('/cart_items', CartItemController::class);
 
 Route::resource('/upload', UploadController::class);
 
 Route::get('xml', [XMLController::class, 'createXML']);
+/*
+Route::group([
+    'middleware' => 'verified'
+], function () {
+
+});
+*/

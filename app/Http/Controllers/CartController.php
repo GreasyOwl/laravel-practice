@@ -5,17 +5,24 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-class ProductController extends Controller
+class CartController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index()
     {
-        $datas = DB::table('products')->get();
-        return $datas;
+        $cart = DB::table('carts')->get()->first();
+
+        $cartItems = DB::table('cart_items')->where('cart_id', $cart->id)->get();
+
+        $cart = collect($cart);
+        dd($cart);
+        $cart->items = $cartItems;
+
+        return $cart;
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cart;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -14,13 +15,7 @@ class CartController extends Controller
      */
     public function index()
     {
-        $cart = DB::table('carts')->get()->first();
-
-        $cartItems = DB::table('cart_items')->where('cart_id', $cart->id)->get();
-
-        $cart = collect($cart);
-        dd($cart);
-        $cart->items = $cartItems;
+        $cart = Cart::with(['cartItems'])->get();
 
         return $cart;
     }

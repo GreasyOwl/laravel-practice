@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateCartItem;
+use App\Models\CartItem;
 use Illuminate\Support\Facades\Validator;
 
 class CartItemController extends Controller
@@ -47,6 +48,16 @@ class CartItemController extends Controller
         if ($validator->fails()) {
             return response($validator->errors(), 400);
         }
+
+        $validated = $validator->validated();
+
+        $cartItem = CartItem::create([
+            'cart_id' => $validated['cart_id'],
+            'product_id' => $validated['product_id'],
+            'quantity' => $validated['quantity'],
+        ]);
+
+        return response()->json($cartItem);
     }
 
     /**
@@ -82,7 +93,11 @@ class CartItemController extends Controller
     {
         $validated = $request->validated();
 
-        return response()->json($validated);
+        CartItem::find($id)->update([
+            'quantity' => $validated['quantity'],
+        ]);
+
+        return response()->json(true);
     }
 
     /**
@@ -93,6 +108,8 @@ class CartItemController extends Controller
      */
     public function destroy($id)
     {
-        //
+        CartItem::find($id)->delete();
+
+        return response()->json(true);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CartController;
@@ -24,3 +25,5 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 Route::resource('/products', ProductController::class);
 Route::resource('/carts', CartController::class);
 Route::resource('/cart-items', CartItemController::class);
+
+Route::post('signup', [AuthController::class, 'signup']);

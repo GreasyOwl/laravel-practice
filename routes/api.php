@@ -33,6 +33,7 @@ Route::group([
     Route::get('user', [AuthController::class, 'user']);
     Route::get('logout', [AuthController::class, 'logout']);
 
+    Route::post('/carts/checkout', [CartController::class, 'checkout']);
     Route::resource('/carts', CartController::class);
     Route::resource('/cart-items', CartItemController::class);
 });

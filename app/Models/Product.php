@@ -9,6 +9,8 @@ class Product extends Model
 {
     use HasFactory;
 
+    protected $guarded = [];
+
     public function cartItems()
     {
         return $this->hasMany(CartItem::class);
@@ -17,5 +19,14 @@ class Product extends Model
     public function orderItems()
     {
         return $this->hasMany(OrderItem::class);
+    }
+
+    public function checkQuantity($quantity)
+    {
+        if ($this->quantity < $quantity) {
+            return false;
+        }
+
+        return true;
     }
 }

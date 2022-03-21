@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\UpdateCartItem;
 use App\Models\CartItem;
+use App\Models\Product;
 use Illuminate\Support\Facades\Validator;
 
 class CartItemController extends Controller
@@ -50,6 +51,12 @@ class CartItemController extends Controller
         }
 
         $validated = $validator->validated();
+
+        $product = Product::find($validated['product_id']);
+        
+        if (!$product->checkQuantity($validated['quantity'])) {
+            return response($product->title . '數量不足', 400);
+        }
 
         $cartItem = CartItem::create([
             'cart_id' => $validated['cart_id'],

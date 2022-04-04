@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Admin\OrderController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\XMLController;
 use App\Http\Controllers\CartController;
@@ -22,6 +23,10 @@ use App\Http\Controllers\CartItemController;
 //     return view('welcome');
 // });
 
+Route::get('/', function(){
+    return view('index');
+});
+Route::resource('/admin/orders', OrderController::class);
 
 Route::resource('/products', ProductController::class);
 Route::resource('/carts', CartController::class);

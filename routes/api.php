@@ -1,11 +1,12 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\CartController;
-use App\Http\Controllers\CartItemController;
-use App\Http\Controllers\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\Admin\OrderController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,16 +25,20 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 Route::resource('/products', ProductController::class);
 
-Route::post('signup', [AuthController::class, 'signup']);
-Route::post('login', [AuthController::class, 'login']);
+Route::post('/signup', [AuthController::class, 'signup']);
+Route::post('/login', [AuthController::class, 'login']);
 
 Route::group([
     'middleware' => 'auth:api',
 ], function () {
-    Route::get('user', [AuthController::class, 'user']);
-    Route::get('logout', [AuthController::class, 'logout']);
+    Route::get('/user', [AuthController::class, 'user']);
+    Route::get('/notifications', [AuthController::class, 'getNotifications']);
+    Route::patch('/read-notification', [AuthController::class, 'readNotification']);
+    Route::get('/logout', [AuthController::class, 'logout']);
 
     Route::post('/carts/checkout', [CartController::class, 'checkout']);
     Route::resource('/carts', CartController::class);
     Route::resource('/cart-items', CartItemController::class);
+
+    Route::post('/admin/orders/{id}/delivery', [OrderController::class, 'delivery']);
 });

@@ -6,6 +6,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartItemController;
+use App\Http\Controllers\Admin\ToolController;
 use App\Http\Controllers\Admin\OrderController;
 
 /*
@@ -41,4 +42,5 @@ Route::group([
     Route::resource('/cart-items', CartItemController::class);
 
     Route::post('/admin/orders/{id}/delivery', [OrderController::class, 'delivery']);
+    Route::patch('/admin/tools/update-product-price', [ToolController::class, 'updateProductPrice']);
 });
